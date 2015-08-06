@@ -1,0 +1,7 @@
+m4_minecraft:
+    resource: "@M4MinecraftBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
