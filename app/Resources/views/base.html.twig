@@ -1,13 +1,79 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Добро пожаловать!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+
+    <title>{% block title %}24servera.ru{% endblock %}</title>
+
+    <!-- CSS TWIG  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ asset('bundles/m4minecraft/img/favicon.ico') }}" type="image/x-icon">
+    <link href="{{ asset ('bundles/m4minecraft/css/materialize.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="{{ asset ('bundles/m4minecraft/css/style.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+
+<body>
+<div class="background"></div>
+<nav class="light-blue lighten-1" role="navigation">
+    {% block nav %}
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">24servera.ru/minecraft</a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="#">Добавить свой сервер</a></li>
+            <li><a href="#">Раскрутить сервер</a></li>
+            <li><a href="#">Наша группа вк</a></li>
+            <li><a href="#">Добавить свой сервер</a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="side-nav">
+            <li><a href="#">Добавить свой сервер</a></li>
+            <li><a href="#">Раскрутить сервер</a></li>
+            <li><a href="#">Наша группа вк</a></li>
+            <li><a href="#">Добавить свой сервер</a></li>
+        </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+    {% endblock nav %}
+</nav>
+
+{% block section %}
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <div class="row center">
+                <h5 class="header col s12 light">Мониторинг игровых серверов Minecraft{{ name }}</h5>
+            </div>
+            <div class="row center">
+                <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light red">+ Добавить сервер</a>
+                <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light light-green">Раскрутить сервер</a>
+            </div>
+            <br><br>
+
+        </div>
+    </div>
+{% endblock section %}
+
+<div class="container">
+{% block body %}
+
+    Пустой блок BODY
+
+{% endblock %}
+</div>
+
+
+<footer class="page-footer light-blue">
+{% block footer %}
+        <div class="container">
+            <a class="orange-text text-lighten-3" href="http://24servera.ru">Copyright © 2015 24servera.ru</a>
+        </div>
+{% endblock %}
+</footer>
+
+<!--  Scripts TWIG-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="../../bin/materialize.js"></script>
+<script src="{{ asset ('bundles/m4minecraft/js/init.js') }}"></script>
+
+</body>
 </html>

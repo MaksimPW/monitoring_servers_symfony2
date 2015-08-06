@@ -8,7 +8,7 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-
-        return $this->render('M4MinecraftBundle:Default:index.html.twig');
+        $name= 'name'; 
+        return $this->render('M4MinecraftBundle:Default:index.html.twig', array('name' => $name));
     }
 }
