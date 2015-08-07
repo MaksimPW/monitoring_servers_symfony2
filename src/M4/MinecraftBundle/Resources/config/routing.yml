@@ -1,3 +1,13 @@
 m4_minecraft_homepage:
     path:     /
     defaults: { _controller: M4MinecraftBundle:Default:index }
+
+m4_minecraft_create:
+    path:     /create
+    defaults: { _controller: M4MinecraftBundle:Default:create }
+
+
+m4_minecraft_show:
+    path:     /show/
+    defaults: { _controller: M4MinecraftBundle:Default:show }
+
