@@ -4,32 +4,7 @@
 
 
 {% block body %}
-
-
         <div class="section">
-
-            <table class="striped centered hoverable">
-                <thead>
-            <tr>
-                <th data-field="name">id</th>
-                <th data-field="descr">name</th>
-                <th data-field="adress">price</th>
-                <th data-field="ver">description</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for entity in product %}
-            <tr>
-                <td>{{ entity.id }}</td>
-                <td>{{ entity.name }}</td>
-                <td>{{ entity.price }}</td>
-                <td>{{ entity.description }}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-            </table>
-
-
             <table class="striped centered hoverable">
                 <thead>
                 <tr>
@@ -43,32 +18,28 @@
                 </thead>
 
                 <tbody>
-                <tr class="amber">
-                    <td>SunnyWorld Дюп и Мини Игры</td>
-                    <td>Дюп, кланы, hg,spleef,bowspleef,skywars,bedwars, поршни,</td>
-                    <td>186.2.164.200:25565</td>
-                    <td>1.5.2</td>
-                    <td>568/700</td>
-                    <td>22</td>
+                {% for s in mc_server %}
+                <tr class="{{ s.color }}">
+                    <td>{{ s.name }}</td>
+                    <td>{{ s.description }}</td>
+                    <td>{{ s.ip }}</td>
+                    <td>{{ s.ver }}</td>
+                    <td>online</td>
+                    <td>{{ s.balls }}</td>
                 </tr>
-                <tr class="teal">
-                    <td>SUPERMINE 1.8-1.8.9 БЕЗ ДЮПА</td>
-                    <td>У нас нету дюпа ,есть свадьбы ,кланы ,pvp ,экономика ,магазин ,сплиф арена и только качественный донат</td>
-                    <td>5.135.32.73:25565</td>
-                    <td>1.8.7</td>
-                    <td>110/150</td>
-                    <td>15</td>
-                </tr>
-                <tr>
-                    <td>SunnyWorld Дюп и Мини Игры</td>
-                    <td>Дюп, кланы, hg,spleef,bowspleef,skywars,bedwars, поршни,</td>
-                    <td>186.2.164.200:25565</td>
-                    <td>1.5.2</td>
-                    <td>568/700</td>
-                    <td>22</td>
-                </tr>
-
+                {% endfor %}
                 </tbody>
             </table>
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+            <br>
+            <br>
         </div>
 {% endblock %}

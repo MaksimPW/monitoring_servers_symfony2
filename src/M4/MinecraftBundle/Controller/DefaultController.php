@@ -24,21 +24,21 @@ class DefaultController extends Controller
         return new Response('Created product id '.$product->getId());
     }
 
-    public function indexAction()
+    public function showAction()
     {
         $name= 'name'; 
         return $this->render('M4MinecraftBundle:Default:index.html.twig', array('name' => $name));
     }
 
-    public function showAction()
+    public function indexAction()
     {
-        $product = $this->getDoctrine()
-            ->getRepository('M4\MinecraftBundle\Entity\Product')
+        $mc_server = $this->getDoctrine()
+            ->getRepository('M4\MinecraftBundle\Entity\Mc_server')
             ->findAll();
 
 
 
-        return $this->render('M4MinecraftBundle:Default:index.html.twig', array('product' => $product));
+        return $this->render('M4MinecraftBundle:Default:index.html.twig', array('mc_server' => $mc_server));
         //return new Response('Show Name: '.$product->getName());
     }
 
