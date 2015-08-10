@@ -16,6 +16,7 @@
 <body>
 <div class="background"></div>
 <nav class="light-blue lighten-1" role="navigation">
+
     {% block nav %}
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">24servera.ru/minecraft</a>
         <ul class="right hide-on-med-and-down">
@@ -42,15 +43,17 @@
             <br><br>
             <div class="row center">
                 <h5 class="header col s12 light">Мониторинг игровых серверов Minecraft</h5>
+
             </div>
             <div class="row center">
-                <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light red">+ Добавить сервер</a>
-                <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light light-green">Раскрутить сервер</a>
+                <a href="#" id="download-button" class="btn-large waves-effect waves-light red">+ Добавить сервер</a>
+                <a href="#" id="download-button" class="btn-large waves-effect waves-light light-green">Раскрутить сервер</a>
             </div>
-            <br><br>
+
 
         </div>
     </div>
+
 {% endblock section %}
 
 <div class="container">
@@ -58,7 +61,8 @@
 
     Пустой блок BODY
 
-{% endblock %}
+
+{% endblock body %}
 </div>
 
 
@@ -67,12 +71,12 @@
         <div class="container">
             <a class="orange-text text-lighten-3" href="http://24servera.ru">Copyright © 2015 24servera.ru</a>
         </div>
-{% endblock %}
+{% endblock footer %}
 </footer>
 
 <!--  Scripts TWIG-->
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="../../bin/materialize.js"></script>
+<script src="{{ asset ('bundles/m4minecraft/js/materialize.js') }}"></script>
 <script src="{{ asset ('bundles/m4minecraft/js/init.js') }}"></script>
 
 </body>

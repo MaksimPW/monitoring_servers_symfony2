@@ -8,6 +8,6 @@ m4_minecraft_create:
 
 
 m4_minecraft_show:
-    path:     /show/
+    path:     /show
     defaults: { _controller: M4MinecraftBundle:Default:show }
 

@@ -18,7 +18,7 @@
                 </thead>
 
                 <tbody>
-                {% for s in mc_server %}
+                {% for s in pagination %}
                 <tr class="{{ s.color }}">
                     <td>{{ s.name }}</td>
                     <td>{{ s.description }}</td>
@@ -30,16 +30,31 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <ul class="pagination">
-                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                <li class="active"><a href="#!">1</a></li>
-                <li class="waves-effect"><a href="#!">2</a></li>
-                <li class="waves-effect"><a href="#!">3</a></li>
-                <li class="waves-effect"><a href="#!">4</a></li>
-                <li class="waves-effect"><a href="#!">5</a></li>
-                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-            </ul>
-            <br>
-            <br>
-        </div>
+
+            <table class="striped centered hoverable">
+                <thead>
+                <tr>
+                    {# sorting of properties based on query components #}
+                    <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+                    <th{% if pagination.isSorted('a.Balls') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Balls', 'a.balls') }}</th>
+                </tr>
+                </thead>
+
+                {# table body #}
+                {% for article in pagination %}
+                    <tr {% if loop.index is odd %}class="color"{% endif %}>
+                        <td>{{ article.id }}</td>
+                        <td>{{ article.balls }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+
+            {# display navigation #}
+            <div class="">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+
+</div>
+
 {% endblock %}
