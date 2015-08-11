@@ -36,7 +36,7 @@ class DefaultController extends Controller
         $pagination = $paginator->paginate(
             $query,
             $this->get('request')->query->get('page', 1)/*page number*/,
-            2 /*limit per page */
+            6 /*limit per page */
         );
 
         return $this->render('M4MinecraftBundle:Default:index.html.twig', array('pagination' => $pagination));
