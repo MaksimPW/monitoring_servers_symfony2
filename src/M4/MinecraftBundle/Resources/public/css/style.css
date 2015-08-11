@@ -24,11 +24,17 @@
 }
 
 body{
-	opacity: 1;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
     background: url(../img/site-chilldy-3-2630779.png) no-repeat ;
     background-size: cover;
 }
 
 .center-column{
 	background: white;
+}
+
+main {
+    flex: 1 0 auto;
 }
