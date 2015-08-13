@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new M4\MinecraftBundle\M4MinecraftBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new M4\TaskBundle\M4TaskBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

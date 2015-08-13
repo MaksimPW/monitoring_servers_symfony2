@@ -11,3 +11,7 @@ m4_minecraft_show:
     path:     /show
     defaults: { _controller: M4MinecraftBundle:Default:show }
 
+
+m4_minecraft_new:
+    path:     /new
+    defaults: { _controller: M4MinecraftBundle:Default:new }

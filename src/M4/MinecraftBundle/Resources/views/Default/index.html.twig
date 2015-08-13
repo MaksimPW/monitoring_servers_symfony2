@@ -2,6 +2,20 @@
 
 {% block title %}24servera.ru{% endblock %}
 
+{% block section %}
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <div class="row center">
+                <h5 class="header col s12 light">Мониторинг игровых серверов Minecraft</h5>
+            </div>
+            <div class="row center">
+                <a href="#" class="btn-large waves-effect waves-light red">+ Добавить сервер</a>
+                <a href="#" class="btn-large waves-effect waves-light light-green">Раскрутить сервер</a>
+            </div>
+        </div>
+    </div>
+{% endblock section %}
 
 {% block body %}
         <div class="section">
@@ -30,8 +44,6 @@
                 {% endfor %}
                 </tbody>
             </table>
-
-
 
             {# display navigation #}
             <div class="">

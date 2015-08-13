@@ -18,17 +18,33 @@
 <nav class="light-blue lighten-1" role="navigation">
 
     {% block nav %}
-    <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">24servera.ru/minecraft</a>
+    <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">24SERVERA.RU</a>
         <ul class="right hide-on-med-and-down">
             <li><a href="/add">Добавить свой сервер</a></li>
             <li><a href="/add">Раскрутить сервер</a></li>
             <li><a href="https://vk.com/megustacraft">Наша группа вк</a></li>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                <li><a href="{{ path('fos_user_security_logout') }}">
+                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                    </a></li>
+            {% else %}
+                <li><a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
+            {% endif %}
         </ul>
 
         <ul id="nav-mobile" class="side-nav">
             <li><a href="/add">Добавить свой сервер</a></li>
             <li><a href="/add">Раскрутить сервер</a></li>
             <li><a href="https://vk.com/megustacraft">Наша группа вк</a></li>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                <li><a href="{{ path('fos_user_security_logout') }}">
+                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                    </a></li>
+            {% else %}
+                <li><a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
+            {% endif %}
         </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
@@ -37,22 +53,6 @@
 </header>
 <main>
 {% block section %}
-    <div class="section no-pad-bot" id="index-banner">
-        <div class="container">
-            <br><br>
-            <div class="row center">
-                <h5 class="header col s12 light">Мониторинг игровых серверов Minecraft</h5>
-
-            </div>
-            <div class="row center">
-                <a href="#" class="btn-large waves-effect waves-light red">+ Добавить сервер</a>
-                <a href="#" class="btn-large waves-effect waves-light light-green">Раскрутить сервер</a>
-            </div>
-
-
-        </div>
-    </div>
-
 {% endblock section %}
 
 <div class="container">

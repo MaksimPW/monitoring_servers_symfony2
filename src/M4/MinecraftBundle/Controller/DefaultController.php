@@ -2,6 +2,7 @@
 
 namespace M4\MinecraftBundle\Controller;
 
+use M4\MinecraftBundle\Entity\Mc_server;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use M4\MinecraftBundle\Entity\Product;
@@ -10,6 +11,25 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
+
+    public function newAction()
+    {
+        // создаём задачу и присваиваем ей некоторые начальные данные для примера
+        $server = new Mc_server();
+        $server->setName('NameServer');
+        $server->setIp('127.0.0.1');
+
+        $form = $this->createFormBuilder($server)
+            ->add('name', 'text')
+            ->add('ip', 'text')
+            ->getForm();
+
+        return $this->render('M4MinecraftBundle:Default:lc.html.twig', array(
+            'form' => $form->createView(),
+        ));
+
+    }
+
 
     public function createAction()
     {
@@ -42,19 +62,9 @@ class DefaultController extends Controller
         return $this->render('M4MinecraftBundle:Default:index.html.twig', array('pagination' => $pagination));
     }
 
-    public function showAction()
+    public function lcAction()
     {
-        /* $mc_server = $this->getDoctrine()
-            ->getRepository('M4\MinecraftBundle\Entity\Mc_server')
-            ->findAll();
-*/
-        $em = $this->getDoctrine()->getEntityManager();
-        $dql="SELECT m FROM M4MinecraftBundle:Mc_server m ORDER BY m.balls DESC";
-        $query = $em->createQuery($dql);
-        $mc_server = $query->getResult();
-
-
-        return $this->render('::base.html.twig', array('mc_server' => $mc_server));
+        return $this->render('M4MinecraftBundle:Default:lc.html.twig');
         //return new Response('Show Name: '.$product->getName());
     }
 

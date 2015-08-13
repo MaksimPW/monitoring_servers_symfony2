@@ -1,0 +1,3 @@
+task_new:
+    path:     /task_new
+    defaults: { _controller: M4TaskBundle:Default:new }

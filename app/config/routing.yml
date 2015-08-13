@@ -1,3 +1,7 @@
+m4_task:
+    resource: "@M4TaskBundle/Resources/config/routing.yml"
+    prefix:   /
+
 m4_minecraft:
     resource: "@M4MinecraftBundle/Resources/config/routing.yml"
     prefix:   /
@@ -13,7 +17,7 @@ fos_user_security:
 
 fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    prefix: /profile
+    prefix: /lc
 
 fos_user_register:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
@@ -25,4 +29,4 @@ fos_user_resetting:
 
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    prefix: /profile
+    prefix: /lc
