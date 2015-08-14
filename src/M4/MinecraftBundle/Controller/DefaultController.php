@@ -53,7 +53,6 @@ class DefaultController extends Controller
 
     }
 
-
     public function createAction()
     {
         $product = new Product();
@@ -79,16 +78,29 @@ class DefaultController extends Controller
         $pagination = $paginator->paginate(
             $query,
             $this->get('request')->query->get('page', 1)/*page number*/,
-            6 /*limit per page */
+            8 /*limit per page */
         );
 
         return $this->render('M4MinecraftBundle:Default:index.html.twig', array('pagination' => $pagination));
     }
 
-    public function lcAction()
+    public function serverAction($id)
     {
-        return $this->render('M4MinecraftBundle:Default:lc.html.twig');
-        //return new Response('Show Name: '.$product->getName());
+        /*
+        $em = $this->getDoctrine()->getEntityManager();
+        $dql="SELECT m FROM M4MinecraftBundle:Mc_server m ORDER BY m.balls DESC";
+        $query = $em->createQuery($dql);
+        $mc_server = $query->getResult();
+*/
+        $s = $this->getDoctrine()
+            ->getRepository('M4MinecraftBundle:Mc_server')
+            ->find($id);
+
+        if (!$s) {
+            throw $this->createNotFoundException('Такого сервера не существует '.$id);
+        }
+
+        return $this->render('M4MinecraftBundle:Default:server.html.twig', array('s'=>$s));
     }
 
 }
