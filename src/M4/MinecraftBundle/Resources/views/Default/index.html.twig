@@ -33,12 +33,12 @@
 
                 <tbody>
                 {% for s in pagination %}
-                <tr class="{{ s.color }}">
+                <tr class="{{ s.color }} serverlist">
                     <td><a href="/server/{{ s.id }}">{{ s.name }}</a></td>
                     <td>{{ s.description }}</td>
-                    <td>{{ s.ip }}</td>
+                    <td id="ip{{ loop.index }}">{{ s.ip }}</td>
                     <td>{{ s.ver }}</td>
-                    <td>123</td>
+                    <td><p id="online{{ loop.index }}">1</p></td>
                     <td>{{ s.balls }}</td>
                 </tr>
                 {% endfor %}

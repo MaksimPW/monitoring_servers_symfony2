@@ -39,11 +39,10 @@ main {
     flex: 1 0 auto;
 }
 
-
 a{
     color: #000000;
 }
 
-a:hover{
+td a:hover{
     text-decoration: underline;
 }

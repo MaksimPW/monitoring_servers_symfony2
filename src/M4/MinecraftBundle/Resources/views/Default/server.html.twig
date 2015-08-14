@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <div class="section">
+    <table class="striped centered hoverable">
+        <thead>
+        <tr>
+            <th data-field="name">Название сервера</th>
+            <th data-field="descr">Краткое описание</th>
+            <th data-field="adress">Адрес сервера</th>
+            <th data-field="ver">Версия</th>
+            <th data-field="ver">Онлайн</th>
+            <th data-field="bol">Кругов</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr class="{{ s.color }} serverlist">
+                <td>{{ s.name }}</a></td>
+                <td>{{ s.description }}</td>
+                <td id="ip">{{ s.ip }}</td>
+                <td>{{ s.ver }}</td>
+                <td><p id="online">null</p></td>
+                <td>{{ s.balls }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{{ asset ('bundles/m4minecraft/js/online.js') }}"></script>
+{% endblock body %}
