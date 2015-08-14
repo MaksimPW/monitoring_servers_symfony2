@@ -12,19 +12,42 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller
 {
 
-    public function newAction()
+    public function addAction(Request $request)
     {
         // создаём задачу и присваиваем ей некоторые начальные данные для примера
         $server = new Mc_server();
         $server->setName('NameServer');
         $server->setIp('127.0.0.1');
+        $server->setVer(0);
+        $server->setBalls(0);
+        $server->setColor('white');
+        $server->setRating(0);
+        $server->setLocation('ru');
 
         $form = $this->createFormBuilder($server)
-            ->add('name', 'text')
-            ->add('ip', 'text')
+            ->add('name', 'text', array('label' => 'Название'))
+            ->add('ip', 'text', array('label' => 'IP адресс'))
+            ->add('ver', 'text', array('label' => 'Версия'))
+            ->add('description','text', array('label' => 'Описание сервера'))
+            ->add('website','url', array('label' => 'Сайт'))
             ->getForm();
 
-        return $this->render('M4MinecraftBundle:Default:lc.html.twig', array(
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+
+                // выполняем прочие действие, например, сохраняем задачу в базе данных
+
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($server);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
+            }
+        }
+
+        return $this->render('M4MinecraftBundle:Default:add.html.twig', array(
             'form' => $form->createView(),
         ));
 

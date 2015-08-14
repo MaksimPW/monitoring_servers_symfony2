@@ -10,8 +10,8 @@
                 <h5 class="header col s12 light">Мониторинг игровых серверов Minecraft</h5>
             </div>
             <div class="row center">
-                <a href="#" class="btn-large waves-effect waves-light red">+ Добавить сервер</a>
-                <a href="#" class="btn-large waves-effect waves-light light-green">Раскрутить сервер</a>
+                <a href="/add" class="btn-large waves-effect waves-light red">+ Добавить сервер</a>
+                <a href="/add" class="btn-large waves-effect waves-light light-green">Раскрутить сервер</a>
             </div>
         </div>
     </div>
@@ -34,11 +34,11 @@
                 <tbody>
                 {% for s in pagination %}
                 <tr class="{{ s.color }}">
-                    <td>{{ s.name }}</td>
+                    <td><a href="/server/{{ s.id }}">{{ s.name }}</a></td>
                     <td>{{ s.description }}</td>
                     <td>{{ s.ip }}</td>
                     <td>{{ s.ver }}</td>
-                    <td>online</td>
+                    <td>123</td>
                     <td>{{ s.balls }}</td>
                 </tr>
                 {% endfor %}
