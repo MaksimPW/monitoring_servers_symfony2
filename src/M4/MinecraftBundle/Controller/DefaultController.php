@@ -81,7 +81,7 @@ class DefaultController extends Controller
         $dql="SELECT m FROM M4MinecraftBundle:Mc_server m ORDER BY m.balls DESC";
         $query = $em->createQuery($dql);
         $mc_server = $query->getResult();
-*/
+        */
         $s = $this->getDoctrine()
             ->getRepository('M4MinecraftBundle:Mc_server')
             ->find($id);
