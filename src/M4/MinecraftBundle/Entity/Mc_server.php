@@ -22,6 +22,11 @@ class Mc_server
     protected $name;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $id_user;
+
+    /**
      * @ORM\Column(type="string", length=128)
      */
     protected $ip;
@@ -276,5 +281,28 @@ class Mc_server
     public function getLocation()
     {
         return $this->location;
+    }
+
+    /**
+     * Set id_user
+     *
+     * @param integer $idUser
+     * @return Mc_server
+     */
+    public function setIdUser($idUser)
+    {
+        $this->id_user = $idUser;
+
+        return $this;
+    }
+
+    /**
+     * Get id_user
+     *
+     * @return integer 
+     */
+    public function getIdUser()
+    {
+        return $this->id_user;
     }
 }

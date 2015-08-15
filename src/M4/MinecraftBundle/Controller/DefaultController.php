@@ -24,6 +24,10 @@ class DefaultController extends Controller
         $server->setRating(0);
         $server->setLocation('ru');
 
+        $user = $this->getUser();
+        $userId = $user->getId();
+        $server->setIdUser($userId);
+
         $form = $this->createFormBuilder($server)
             ->add('name', 'text', array('label' => 'Название'))
             ->add('ip', 'text', array('label' => 'IP адресс'))
@@ -51,20 +55,6 @@ class DefaultController extends Controller
             'form' => $form->createView(),
         ));
 
-    }
-
-    public function createAction()
-    {
-        $product = new Product();
-        $product->setName('A Foo Bar');
-        $product->setPrice('19.99');
-        $product->setDescription('Lorem ipsum dolor');
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $em->persist($product);
-        $em->flush();
-
-        return new Response('Created product id '.$product->getId());
     }
 
     public function indexAction()
