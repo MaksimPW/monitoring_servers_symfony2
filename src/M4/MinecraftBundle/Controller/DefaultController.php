@@ -117,6 +117,20 @@ class DefaultController extends Controller
                 $em->persist($donut);
                 $em->flush();
 
+                //Выводим и сохраняем в mc_server
+                $id_server = $form['id_server']->getData();
+                $add_balls = $form['sum']->getData();
+
+                $ems = $this->getDoctrine()->getEntityManager();
+                //$dql="SELECT m FROM M4MinecraftBundle:Mc_server m ORDER BY m.balls DESC";
+                $dql="UPDATE M4MinecraftBundle:Mc_server s SET s.balls = s.balls +  :add_balls WHERE s.id IN (:id_server)";
+                $query = $ems->createQuery($dql)
+                    ->setParameters(array(
+                    'add_balls' => $add_balls,
+                    'id_server'  => $id_server,
+                ));
+                $query->getResult();
+
                 return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
             }
         }
