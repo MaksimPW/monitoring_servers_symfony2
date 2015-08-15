@@ -9,3 +9,7 @@ m4_minecraft_add:
 m4_minecraft_server:
     path:    /server/{id}
     defaults: { _controller: M4MinecraftBundle:Default:server }
+
+m4_minecraft_donut:
+    path:    /donut
+    defaults: { _controller: M4MinecraftBundle:Default:donut }

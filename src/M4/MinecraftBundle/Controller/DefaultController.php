@@ -3,9 +3,10 @@
 namespace M4\MinecraftBundle\Controller;
 
 use M4\MinecraftBundle\Entity\Mc_server;
+use M4\MinecraftBundle\Entity\Donut;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use M4\MinecraftBundle\Entity\Product;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -91,6 +92,40 @@ class DefaultController extends Controller
         }
 
         return $this->render('M4MinecraftBundle:Default:server.html.twig', array('s'=>$s));
+    }
+
+    public function donutAction(Request $request){
+
+        $donut = new Donut();
+        $donut->setIdServer(1);
+        $donut->setSum(1);
+        $donut->setDate(new \DateTime);
+
+        $form = $this->createFormBuilder($donut)
+            ->add('id_server', 'integer', array('label' => 'Сервер'))
+            ->add('sum','integer', array('label' => 'Количество'))
+            ->getForm();
+
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+
+                // выполняем прочие действие, например, сохраняем задачу в базе данных
+
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($donut);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
+            }
+        }
+
+
+
+        return $this->render('M4MinecraftBundle:Default:donut.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
 }

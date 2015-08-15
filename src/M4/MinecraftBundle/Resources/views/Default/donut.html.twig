@@ -1,0 +1,8 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+
+    <form action="{{ path('m4_minecraft_donut') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <input type="submit" class="btn red" />
+    </form>
+{% endblock body %}
