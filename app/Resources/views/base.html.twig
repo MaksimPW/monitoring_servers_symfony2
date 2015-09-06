@@ -21,7 +21,7 @@
     <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">24SERVERA.RU</a>
         <ul class="right hide-on-med-and-down">
             <li><a href="/add">Добавить свой сервер</a></li>
-            <li><a href="/add">Раскрутить сервер</a></li>
+            <li><a href="/donut">Раскрутить сервер</a></li>
             <li><a href="https://vk.com/megustacraft">Наша группа вк</a></li>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
@@ -35,7 +35,7 @@
 
         <ul id="nav-mobile" class="side-nav">
             <li><a href="/add">Добавить свой сервер</a></li>
-            <li><a href="/add">Раскрутить сервер</a></li>
+            <li><a href="/donut">Раскрутить сервер</a></li>
             <li><a href="https://vk.com/megustacraft">Наша группа вк</a></li>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |

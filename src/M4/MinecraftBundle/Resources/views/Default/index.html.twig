@@ -11,7 +11,7 @@
             </div>
             <div class="row center">
                 <a href="/add" class="btn-large waves-effect waves-light red">+ Добавить сервер</a>
-                <a href="/add" class="btn-large waves-effect waves-light light-green">Раскрутить сервер</a>
+                <a href="/donut" class="btn-large waves-effect waves-light light-green">Раскрутить сервер</a>
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@
                     <td>{{ s.description }}</td>
                     <td id="ip{{ loop.index }}">{{ s.ip }}</td>
                     <td>{{ s.ver }}</td>
-                    <td><p id="online{{ loop.index }}">1</p></td>
+                    <td><span id="online{{ loop.index }}">offline</span></td>
                     <td>{{ s.balls }}</td>
                 </tr>
                 {% endfor %}

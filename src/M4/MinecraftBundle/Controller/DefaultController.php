@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 class DefaultController extends Controller
 {
 
@@ -51,6 +51,8 @@ class DefaultController extends Controller
                 return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
             }
         }
+
+
 
         return $this->render('M4MinecraftBundle:Default:add.html.twig', array(
             'form' => $form->createView(),
@@ -102,8 +104,8 @@ class DefaultController extends Controller
         $donut->setDate(new \DateTime);
 
         $form = $this->createFormBuilder($donut)
-            ->add('id_server', 'integer', array('label' => 'Сервер'))
-            ->add('sum','integer', array('label' => 'Количество'))
+            ->add('id_server', 'integer', array('label' => 'Выберите ваш сервер'))
+            ->add('sum','integer', array('label' => 'Количество шариков'))
             ->getForm();
 
         if ($request->getMethod() == 'POST') {
