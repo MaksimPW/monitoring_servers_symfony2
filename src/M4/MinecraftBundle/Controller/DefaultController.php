@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
+use Doctrine\ORM\EntityRepository;
 class DefaultController extends Controller
 {
 
@@ -96,16 +97,48 @@ class DefaultController extends Controller
         return $this->render('M4MinecraftBundle:Default:server.html.twig', array('s'=>$s));
     }
 
+
+
     public function donutAction(Request $request){
 
+
+        //Пишем dql запрос для choice select form
+        $id_user= $this->get('security.context')->getToken()->getUser()->getId();
+
+        $ems_select = $this->getDoctrine()->getEntityManager();
+        /*$dql_select="SELECT s FROM M4MinecraftBundle:Mc_server s WHERE s.id_user IN (:id_user)";
+        $query_select = $ems_select->createQuery($dql_select)
+            ->setParameters(array(
+                'id_user' => $id_user,
+            ));
+        $qq=$query_select->getResult();
+        $cs = implode(",", $qq);
+        var_dump($qq[0]);
+        $posts = $this->ems_select->getRepository('MinecraftBundle:Mc_server')->findBy(array(
+            'id_user' => $id_user));
+
+*/
+        //Задаем default values
         $donut = new Donut();
         $donut->setIdServer(1);
         $donut->setSum(1);
         $donut->setDate(new \DateTime);
 
+        //Создаем форму
         $form = $this->createFormBuilder($donut)
-            ->add('id_server', 'integer', array('label' => 'Выберите ваш сервер'))
+            //->add('id_server', 'integer', array('label' => 'Выберите ваш сервер'))
             ->add('sum','integer', array('label' => 'Количество шариков'))
+            ->add('id_server', 'entity', array(
+                'label' => 'Выберите ваш сервер',
+                'attr' => array('class' => 'browser-default'),
+                'required' => false,
+                'class'  => 'M4MinecraftBundle:Mc_server',
+                'query_builder' => function(EntityRepository $ems_select) use($id_user){
+                    return $ems_select->createQueryBuilder('s')
+                        ->where('s.id_user IN (:id_user)')
+                        ->setParameter('id_user', $id_user);},
+                'property'=> 'name'
+            ))
             ->getForm();
 
         if ($request->getMethod() == 'POST') {

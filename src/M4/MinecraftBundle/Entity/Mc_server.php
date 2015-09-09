@@ -305,4 +305,9 @@ class Mc_server
     {
         return $this->id_user;
     }
+
+    public function __toString()
+    {
+        return strval($this->id);
+    }
 }

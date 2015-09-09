@@ -98,4 +98,4 @@ fos_user:
     user_class: M4\MinecraftBundle\Entity\User
     registration:
             confirmation:
-                enabled: true
+                enabled: false
