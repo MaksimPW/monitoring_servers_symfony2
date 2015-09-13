@@ -1,3 +1,7 @@
+m4_robokassa:
+    resource: "@M4RobokassaBundle/Resources/config/routing.yml"
+    prefix:   /
+
 m4_task:
     resource: "@M4TaskBundle/Resources/config/routing.yml"
     prefix:   /

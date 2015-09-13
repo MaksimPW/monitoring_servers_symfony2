@@ -1,0 +1,4 @@
+services:
+#    m4_robokassa.example:
+#        class: M4\RobokassaBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
