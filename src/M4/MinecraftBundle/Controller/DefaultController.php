@@ -35,7 +35,7 @@ class DefaultController extends Controller
             ->add('ip', 'text', array('label' => 'IP адресс'))
             ->add('ver', 'text', array('label' => 'Версия'))
             ->add('description','text', array('label' => 'Описание сервера'))
-            ->add('website','url', array('label' => 'Сайт'))
+            ->add('website','text', array('label' => 'Сайт'))
             ->getForm();
 
         if ($request->getMethod() == 'POST') {
