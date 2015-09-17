@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 use Doctrine\ORM\EntityRepository;
+
+use M4\MinecraftBundle\Form\DonutType;
 class DefaultController extends Controller
 {
 
@@ -80,12 +82,7 @@ class DefaultController extends Controller
 
     public function serverAction($id)
     {
-        /*
-        $em = $this->getDoctrine()->getEntityManager();
-        $dql="SELECT m FROM M4MinecraftBundle:Mc_server m ORDER BY m.balls DESC";
-        $query = $em->createQuery($dql);
-        $mc_server = $query->getResult();
-        */
+
         $s = $this->getDoctrine()
             ->getRepository('M4MinecraftBundle:Mc_server')
             ->find($id);
@@ -99,76 +96,44 @@ class DefaultController extends Controller
 
 
 
-    public function donutAction(Request $request){
+    public function donutAction(Request $request, $donut_success = 0){
 
+        $date = new \DateTime('tomorrow');
+        $date = date_format($date, 'yyyy-MM-dd HH:mm:ss');
 
-        //Пишем dql запрос для choice select form
         $id_user= $this->get('security.context')->getToken()->getUser()->getId();
-
-        $ems_select = $this->getDoctrine()->getEntityManager();
-        /*$dql_select="SELECT s FROM M4MinecraftBundle:Mc_server s WHERE s.id_user IN (:id_user)";
-        $query_select = $ems_select->createQuery($dql_select)
-            ->setParameters(array(
-                'id_user' => $id_user,
-            ));
-        $qq=$query_select->getResult();
-        $cs = implode(",", $qq);
-        var_dump($qq[0]);
-        $posts = $this->ems_select->getRepository('MinecraftBundle:Mc_server')->findBy(array(
-            'id_user' => $id_user));
-
-*/
-        //Задаем default values
         $donut = new Donut();
-        $donut->setIdServer(1);
-        $donut->setSum(1);
-        $donut->setDate(new \DateTime);
+        $form = $this->createForm(new DonutType(), $donut, array('id_user'=>$id_user, 'sum'=>1, 'date'=>$date));
 
-        //Создаем форму
-        $form = $this->createFormBuilder($donut)
-            //->add('id_server', 'integer', array('label' => 'Выберите ваш сервер'))
-            ->add('sum','integer', array('label' => 'Количество шариков'))
-            ->add('id_server', 'entity', array(
-                'label' => 'Выберите ваш сервер',
-                'attr' => array('class' => 'browser-default'),
-                'required' => false,
-                'class'  => 'M4MinecraftBundle:Mc_server',
-                'query_builder' => function(EntityRepository $ems_select) use($id_user){
-                    return $ems_select->createQueryBuilder('s')
-                        ->where('s.id_user IN (:id_user)')
-                        ->setParameter('id_user', $id_user);},
-                'property'=> 'name'
-            ))
-            ->getForm();
 
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+            if ($request->getMethod() == 'POST') {
+                $form->bind($request);
 
-            if ($form->isValid()) {
+                if ($form->isValid()) {
 
-                // выполняем прочие действие, например, сохраняем задачу в базе данных
+                    // выполняем прочие действие, например, сохраняем задачу в базе данных donut
+                    $em = $this->getDoctrine()->getEntityManager();
+                    $em->persist($donut);
+                    $em->flush();
 
-                $em = $this->getDoctrine()->getEntityManager();
-                $em->persist($donut);
-                $em->flush();
+                    //Выводим и сохраняем в mc_server
+                    $id_server = $form['id_server']->getData();
+                    $add_balls = $form['sum']->getData();
+                    //$date = $form['date']->getData();
 
-                //Выводим и сохраняем в mc_server
-                $id_server = $form['id_server']->getData();
-                $add_balls = $form['sum']->getData();
-
-                $ems = $this->getDoctrine()->getEntityManager();
-                //$dql="SELECT m FROM M4MinecraftBundle:Mc_server m ORDER BY m.balls DESC";
-                $dql="UPDATE M4MinecraftBundle:Mc_server s SET s.balls = s.balls +  :add_balls WHERE s.id IN (:id_server)";
-                $query = $ems->createQuery($dql)
-                    ->setParameters(array(
-                    'add_balls' => $add_balls,
-                    'id_server'  => $id_server,
-                ));
-                $query->getResult();
-
-                return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
+                    $ems = $this->getDoctrine()->getEntityManager();
+                    //$dql="SELECT m FROM M4MinecraftBundle:Mc_server m ORDER BY m.balls DESC";
+                    $dql = "UPDATE M4MinecraftBundle:Mc_server s SET s.balls = s.balls +  :add_balls WHERE s.id IN (:id_server)";
+                    $query = $ems->createQuery($dql)
+                        ->setParameters(array(
+                            'add_balls' => $add_balls,
+                            'id_server' => $id_server,
+                        ));
+                    $query->getResult();
+                    return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
+                }
             }
-        }
+
 
 
 
