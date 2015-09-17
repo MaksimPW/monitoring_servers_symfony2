@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 use Doctrine\ORM\EntityRepository;
 
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\DateTimeValidator;
+
 use M4\MinecraftBundle\Form\DonutType;
 class DefaultController extends Controller
 {
@@ -98,12 +102,12 @@ class DefaultController extends Controller
 
     public function donutAction(Request $request, $donut_success = 0){
 
-        $date = new \DateTime('tomorrow');
-        $date = date_format($date, 'yyyy-MM-dd HH:mm:ss');
+        $date_option = new \DateTime();
+        //$date_option = date_format($date_option, 'yyyy-MM-dd');
 
         $id_user= $this->get('security.context')->getToken()->getUser()->getId();
         $donut = new Donut();
-        $form = $this->createForm(new DonutType(), $donut, array('id_user'=>$id_user, 'sum'=>1, 'date'=>$date));
+        $form = $this->createForm(new DonutType(), $donut, array('id_user'=>$id_user, 'sum'=>1, 'date_option'=>$date_option));
 
 
             if ($request->getMethod() == 'POST') {
@@ -119,10 +123,8 @@ class DefaultController extends Controller
                     //Выводим и сохраняем в mc_server
                     $id_server = $form['id_server']->getData();
                     $add_balls = $form['sum']->getData();
-                    //$date = $form['date']->getData();
 
                     $ems = $this->getDoctrine()->getEntityManager();
-                    //$dql="SELECT m FROM M4MinecraftBundle:Mc_server m ORDER BY m.balls DESC";
                     $dql = "UPDATE M4MinecraftBundle:Mc_server s SET s.balls = s.balls +  :add_balls WHERE s.id IN (:id_server)";
                     $query = $ems->createQuery($dql)
                         ->setParameters(array(
@@ -133,9 +135,6 @@ class DefaultController extends Controller
                     return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
                 }
             }
-
-
-
 
         return $this->render('M4MinecraftBundle:Default:donut.html.twig', array(
             'form' => $form->createView(),

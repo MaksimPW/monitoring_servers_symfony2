@@ -26,15 +26,15 @@ class Donut
     protected $sum;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
-    protected $date;
+    protected $date_operation;
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -57,7 +57,7 @@ class Donut
     /**
      * Get id_server
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdServer()
     {
@@ -80,33 +80,34 @@ class Donut
     /**
      * Get sum
      *
-     * @return integer 
+     * @return integer
      */
     public function getSum()
     {
         return $this->sum;
     }
 
+
     /**
-     * Set date
+     * Set date_operation
      *
-     * @param \DateTime $date
+     * @param \DateTime $dateOperation
      * @return Donut
      */
-    public function setDate($date)
+    public function setDateOperation($dateOperation)
     {
-        $this->date = $date;
+        $this->date_operation = $dateOperation;
 
         return $this;
     }
 
     /**
-     * Get date
+     * Get date_operation
      *
      * @return \DateTime 
      */
-    public function getDate()
+    public function getDateOperation()
     {
-        return $this->date;
+        return $this->date_operation;
     }
 }

@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+
 use M4\MinecraftBundle\Entity\Mc_server;
 use M4\MinecraftBundle\Entity\Donut;
 use Doctrine\ORM\EntityRepository;
@@ -48,7 +49,10 @@ class DonutType extends AbstractType
                         ->setParameter('id_user', $id_user);},
                 'property'=> 'name'
             ))
-            ->add('date', 'date', array('data' => $options['date']))
+            /*->add($builder->create('date', 'hidden')
+                ->addViewTransformer(new DateTimeToStringTransformer()))
+*/
+            ->add('date_operation', 'date', array('data' => $options['date_option']))
             ->getForm();
 
     }
@@ -67,13 +71,13 @@ class DonutType extends AbstractType
         //$resolver->setDefined('id_user');
        // $date = $resolver->setDate(new \DateTime);
 
-        $date = new \DateTime('tomorrow');
-        $date = date_format($date, 'yyyy-MM-dd HH:mm:ss');
+       // $date_option = new \Date;
+       // $date_option = date_format($date_option, 'yyyy-MM-dd');
         $resolver->setDefaults(array(
             'data_class' => 'M4\MinecraftBundle\Entity\Donut',
             'id_user' => 0,
             'sum' => 1,
-            'date' => $date,
+            'date_option' => 0,
         ));
     }
 
