@@ -13,3 +13,7 @@ m4_minecraft_server:
 m4_minecraft_donut:
     path:    /donut
     defaults: { _controller: M4MinecraftBundle:Default:donut }
+
+m4_minecraft_result:
+    path:   /result
+    defaults: { _controller: M4MinecraftBundle:Default:result }
