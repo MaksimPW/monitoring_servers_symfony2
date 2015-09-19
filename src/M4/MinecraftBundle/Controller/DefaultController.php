@@ -124,7 +124,6 @@ class DefaultController extends Controller
                     $inv_id= $donut->getId();
 
                     // регистрационная информация (логин, пароль #1)
-
                     $mrh_login = "*";
                     $mrh_pass1 = "*";
 
@@ -136,19 +135,15 @@ class DefaultController extends Controller
                     $out_summ = $_REQUEST['donut']['sum']*$curs_dollar;
 
                     // тип товара
-                    // code of goods
                     $shp_item = 1;
 
                     // предлагаемая валюта платежа
-                    // default payment e-currency
                     $in_curr = "";
 
                     // язык
-                    // language
                     $culture = "ru";
 
                     // кодировка
-                    // encoding
                     $encoding = "utf-8";
 
                     // формирование подписи
@@ -184,17 +179,49 @@ class DefaultController extends Controller
     }
 
     public function resultAction(){
-        //$out_summ=nOutSum
-        //$inv_id =nInvId
-        //$crc=sSignatureValue
-        //$shp_login=Vasya
-        //$shp_oplata=1
+        var_dump($_REQUEST);
 
-        $inv_id = $_REQUEST['inv_id'];
-        $out_summ= $_REQUEST['out_summ'];
-        $crc = $_REQUEST['crc'];
-        $shp_login= $_REQUEST['shp_login'];
-        $shp_oplata= $_REQUEST['shp_oplata'];
+        //$out_summ= $_REQUEST['out_summ'];
+        //$crc = $_REQUEST['crc'];
+        //$shp_login= $_REQUEST['shp_login'];
+        //$shp_oplata= $_REQUEST['shp_oplata'];
+
+
+        //Получаем запись в бд таблице donut для извлечения данных
+        $inv_id = $_REQUEST['InvId'];
+
+        //Обновляем значение в таблице donut
+        $em = $this->getDoctrine()->getEntityManager();
+        $donut = $this->getDoctrine()
+            ->getRepository('M4MinecraftBundle:Donut')
+            ->find($inv_id);
+        $donut->setResult('1');
+        $em->flush();
+        //Включаем триггер на месяц
+
+        /*
+         *
+         * КОД ДЛЯ ТРИГГЕРА
+         *
+         *
+         */
+
+        //Получаем данные из базы данных для обновления в mc_server
+        //Сумма баллов
+        $sum = $donut->getSum();
+        //ID сервера
+        $id_server=$donut->getIdServer();
+
+        //Обновляем значение в таблице mc_server
+        $ems = $this->getDoctrine()->getEntityManager();
+        $dql = "UPDATE M4MinecraftBundle:Mc_server s SET s.balls = s.balls +  :add_balls WHERE s.id IN (:id_server)";
+        $query = $ems->createQuery($dql)
+            ->setParameters(array(
+                'add_balls' => $sum,
+                'id_server' => $id_server,
+            ));
+        $query->getResult();
+        return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
 
 
     }
