@@ -100,15 +100,13 @@ class DefaultController extends Controller
 
 
 
-    public function donutAction(Request $request, $donut_success = 0){
+    public function donutAction(Request $request){
 
+        //Вызов формы
         $date_option = new \DateTime();
-        //$date_option = date_format($date_option, 'yyyy-MM-dd');
-
         $id_user= $this->get('security.context')->getToken()->getUser()->getId();
         $donut = new Donut();
         $form = $this->createForm(new DonutType(), $donut, array('id_user'=>$id_user, 'sum'=>1, 'date_option'=>$date_option));
-
 
             if ($request->getMethod() == 'POST') {
                 $form->bind($request);
@@ -120,7 +118,50 @@ class DefaultController extends Controller
                     $em->persist($donut);
                     $em->flush();
 
+                    //Получаем значения для передачи в робокассу
+                    //Номер заказа(номер записи в базе данных)
+
+                    $inv_id= $donut->getId();
+
+                    // регистрационная информация (логин, пароль #1)
+
+                    $mrh_login = "*";
+                    $mrh_pass1 = "*";
+
+                    // описание заказа
+                    $inv_desc = "Donut balls";
+
+                    // сумма заказа
+                    $curs_dollar = 70;
+                    $out_summ = $_REQUEST['donut']['sum']*$curs_dollar;
+
+                    // тип товара
+                    // code of goods
+                    $shp_item = 1;
+
+                    // предлагаемая валюта платежа
+                    // default payment e-currency
+                    $in_curr = "";
+
+                    // язык
+                    // language
+                    $culture = "ru";
+
+                    // кодировка
+                    // encoding
+                    $encoding = "utf-8";
+
+                    // формирование подписи
+                    // generate signature
+                    $crc  = md5("$mrh_login:$out_summ:$inv_id:$mrh_pass1:Shp_item=$shp_item");
+
+
+                    return $this->render('M4MinecraftBundle:Default:robokassa.html.twig', array(
+                        'mrh_login' => $mrh_login, 'out_summ' => $out_summ, 'inv_id' => $inv_id, 'in_curr' => $in_curr, 'inv_desc' => $inv_desc, 'crc' => $crc, 'shp_item' => $shp_item, 'culture' => $culture, 'encoding' => $encoding,
+                    ));
+
                     //Выводим и сохраняем в mc_server
+        /*
                     $id_server = $form['id_server']->getData();
                     $add_balls = $form['sum']->getData();
 
@@ -133,6 +174,7 @@ class DefaultController extends Controller
                         ));
                     $query->getResult();
                     return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
+          */
                 }
             }
 
@@ -141,4 +183,21 @@ class DefaultController extends Controller
         ));
     }
 
+    public function resultAction(){
+        //$out_summ=nOutSum
+        //$inv_id =nInvId
+        //$crc=sSignatureValue
+        //$shp_login=Vasya
+        //$shp_oplata=1
+
+        $inv_id = $_REQUEST['inv_id'];
+        $out_summ= $_REQUEST['out_summ'];
+        $crc = $_REQUEST['crc'];
+        $shp_login= $_REQUEST['shp_login'];
+        $shp_oplata= $_REQUEST['shp_oplata'];
+
+
+    }
+
 }
+

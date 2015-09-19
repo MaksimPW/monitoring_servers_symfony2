@@ -30,6 +30,11 @@ class Donut
      */
     protected $date_operation;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $result=0;
+
 
     /**
      * Get id
@@ -109,5 +114,28 @@ class Donut
     public function getDateOperation()
     {
         return $this->date_operation;
+    }
+
+    /**
+     * Set result
+     *
+     * @param integer $result
+     * @return Donut
+     */
+    public function setResult($result)
+    {
+        $this->result = $result;
+
+        return $this;
+    }
+
+    /**
+     * Get result
+     *
+     * @return integer 
+     */
+    public function getResult()
+    {
+        return $this->result;
     }
 }
