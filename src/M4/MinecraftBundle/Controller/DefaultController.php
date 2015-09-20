@@ -59,8 +59,6 @@ class DefaultController extends Controller
             }
         }
 
-
-
         return $this->render('M4MinecraftBundle:Default:add.html.twig', array(
             'form' => $form->createView(),
         ));
@@ -98,8 +96,6 @@ class DefaultController extends Controller
         return $this->render('M4MinecraftBundle:Default:server.html.twig', array('s'=>$s));
     }
 
-
-
     public function donutAction(Request $request){
 
         //Вызов формы
@@ -120,11 +116,11 @@ class DefaultController extends Controller
 
                     //Получаем значения для передачи в робокассу
                     //Номер заказа(номер записи в базе данных)
-
-                    $inv_id= $donut->getId();
+                    $inv_id=1;
+                    //$inv_id= $donut->getId();
 
                     // регистрационная информация (логин, пароль #1)
-                    $mrh_login = "*";
+                    $mrh_login = "test_24";
                     $mrh_pass1 = "*";
 
                     // описание заказа
@@ -155,21 +151,6 @@ class DefaultController extends Controller
                         'mrh_login' => $mrh_login, 'out_summ' => $out_summ, 'inv_id' => $inv_id, 'in_curr' => $in_curr, 'inv_desc' => $inv_desc, 'crc' => $crc, 'shp_item' => $shp_item, 'culture' => $culture, 'encoding' => $encoding,
                     ));
 
-                    //Выводим и сохраняем в mc_server
-        /*
-                    $id_server = $form['id_server']->getData();
-                    $add_balls = $form['sum']->getData();
-
-                    $ems = $this->getDoctrine()->getEntityManager();
-                    $dql = "UPDATE M4MinecraftBundle:Mc_server s SET s.balls = s.balls +  :add_balls WHERE s.id IN (:id_server)";
-                    $query = $ems->createQuery($dql)
-                        ->setParameters(array(
-                            'add_balls' => $add_balls,
-                            'id_server' => $id_server,
-                        ));
-                    $query->getResult();
-                    return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
-          */
                 }
             }
 
@@ -179,25 +160,38 @@ class DefaultController extends Controller
     }
 
     public function resultAction(){
+
         var_dump($_REQUEST);
 
-        //$out_summ= $_REQUEST['out_summ'];
-        //$crc = $_REQUEST['crc'];
-        //$shp_login= $_REQUEST['shp_login'];
-        //$shp_oplata= $_REQUEST['shp_oplata'];
+        // your registration data
+        $mrh_pass1 = "*";
 
+        // HTTP parameters:
+        $out_summ = $_REQUEST["OutSum"];
+        $inv_id = $_REQUEST["InvId"];
+        $crc = $_REQUEST["SignatureValue"];
 
-        //Получаем запись в бд таблице donut для извлечения данных
-        $inv_id = $_REQUEST['InvId'];
+        $crc = strtoupper($crc);  // force uppercase
 
+        // build own CRC
+        $my_crc = strtoupper(md5("$out_summ:$inv_id:$mrh_pass1"));
+
+        if (strtoupper($my_crc) != strtoupper($crc))
+        {
+            echo "bad sign\n";
+            exit();
+        }
+
+        //Все прошло успешно ->
         //Обновляем значение в таблице donut
+
+        var_dump("success");
         $em = $this->getDoctrine()->getEntityManager();
         $donut = $this->getDoctrine()
             ->getRepository('M4MinecraftBundle:Donut')
             ->find($inv_id);
         $donut->setResult('1');
         $em->flush();
-        //Включаем триггер на месяц
 
         /*
          *
