@@ -193,18 +193,17 @@ class DefaultController extends Controller
         $donut->setResult('1');
         $em->flush();
 
-        /*
-         *
-         * КОД ДЛЯ ТРИГГЕРА
-         *
-         *
-         */
-
-        //Получаем данные из базы данных для обновления в mc_server
-        //Сумма баллов
+        //Получаем данные из базы данных
+        //Вытаскиваем сумму баллов
         $sum = $donut->getSum();
         //ID сервера
         $id_server=$donut->getIdServer();
+
+        //Создание EVENT
+        $query_event="
+        CREATE EVENT donat_event_balls_".$inv_id."
+	    ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 MONTH
+        DO UPDATE mc_server SET balls = balls - ".$sum.";";
 
         //Обновляем значение в таблице mc_server
         $ems = $this->getDoctrine()->getEntityManager();
@@ -216,9 +215,6 @@ class DefaultController extends Controller
             ));
         $query->getResult();
         return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
-
-
     }
-
 }
 
