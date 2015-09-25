@@ -210,8 +210,7 @@ class DefaultController extends Controller
             $query_event="
         CREATE EVENT donat_event_balls_".$inv_id."
 	    ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 MONTH
-        DO UPDATE mc_server SET balls = balls - ".$sum.";";
-
+        DO UPDATE mc_server s SET s.balls = s.balls - ".$sum." WHERE s.id = ".$id_server.";";
             $dbh->query($query_event);
 
         } catch (PDOException $e) {
