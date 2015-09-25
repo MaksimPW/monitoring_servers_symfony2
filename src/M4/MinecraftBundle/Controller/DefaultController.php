@@ -121,7 +121,7 @@ class DefaultController extends Controller
 
                     // регистрационная информация (логин, пароль #1)
                     $mrh_login = "test_24";
-                    $mrh_pass1 = "*";
+                    $mrh_pass1 = $this->container->getParameter('robokassa_pass1');
 
                     // описание заказа
                     $inv_desc = "Donut balls";
@@ -164,7 +164,7 @@ class DefaultController extends Controller
         var_dump($_REQUEST);
 
         // your registration data
-        $mrh_pass1 = "*";
+        $mrh_pass1 = $this->container->getParameter('robokassa_pass1');
 
         // HTTP parameters:
         $out_summ = $_REQUEST["OutSum"];
