@@ -199,11 +199,27 @@ class DefaultController extends Controller
         //ID сервера
         $id_server=$donut->getIdServer();
 
-        //Создание EVENT
-        $query_event="
+        //Создание EVENT через PDO
+        $dsn      = $this->container->getParameter('database_pdo_dsn');
+        $username = $this->container->getParameter('database_user');
+        $password = $this->container->getParameter('database_password');
+
+        try {
+            $dbh = new \PDO($dsn, $username, $password);
+
+            $query_event="
         CREATE EVENT donat_event_balls_".$inv_id."
 	    ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 MONTH
         DO UPDATE mc_server SET balls = balls - ".$sum.";";
+
+            $dbh->query($query_event);
+
+        } catch (PDOException $e) {
+            die('Подключение не удалось: ' . $e->getMessage());
+        }
+
+
+
 
         //Обновляем значение в таблице mc_server
         $ems = $this->getDoctrine()->getEntityManager();
