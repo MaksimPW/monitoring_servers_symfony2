@@ -116,11 +116,10 @@ class DefaultController extends Controller
 
                     //Получаем значения для передачи в робокассу
                     //Номер заказа(номер записи в базе данных)
-                    $inv_id=1;
-                    //$inv_id= $donut->getId();
+                    $inv_id= $donut->getId();
 
                     // регистрационная информация (логин, пароль #1)
-                    $mrh_login = "test_24";
+                    $mrh_login = $this->container->getParameter('robokassa_login');
                     $mrh_pass1 = $this->container->getParameter('robokassa_pass1');
 
                     // описание заказа
@@ -161,31 +160,44 @@ class DefaultController extends Controller
 
     public function resultAction(){
 
-        var_dump($_REQUEST);
 
-        // your registration data
-        $mrh_pass1 = $this->container->getParameter('robokassa_pass1');
+	// регистрационная информация (пароль #2)
+	// registration info (password #2)
+	$mrh_pass2 = $this->container->getParameter('robokassa_pass2');
 
-        // HTTP parameters:
-        $out_summ = $_REQUEST["OutSum"];
-        $inv_id = $_REQUEST["InvId"];
-        $crc = $_REQUEST["SignatureValue"];
+	//установка текущего времени
+	//current date
+	$tm=getdate(time()+9*3600);
+	$date="$tm[year]-$tm[mon]-$tm[mday] $tm[hours]:$tm[minutes]:$tm[seconds]";
 
-        $crc = strtoupper($crc);  // force uppercase
+	// чтение параметров
+	// read parameters
+	$out_summ = $_REQUEST["OutSum"];
+	$inv_id = $_REQUEST["InvId"];
+	$shp_item = $_REQUEST["Shp_item"];
+	$crc = $_REQUEST["SignatureValue"];
 
-        // build own CRC
-        $my_crc = strtoupper(md5("$out_summ:$inv_id:$mrh_pass1"));
+	$crc = strtoupper($crc);
 
-        if (strtoupper($my_crc) != strtoupper($crc))
-        {
-            echo "bad sign\n";
-            exit();
-        }
+	$my_crc = strtoupper(md5("$out_summ:$inv_id:$mrh_pass2:Shp_item=$shp_item"));
+
+	// проверка корректности подписи
+	// check signature
+	if ($my_crc !=$crc)
+	{
+	  echo "bad sign\n";
+	  exit();
+	}
+
+	// признак успешно проведенной операции
+	// success
+	echo "OK$inv_id\n";
+
+
 
         //Все прошло успешно ->
         //Обновляем значение в таблице donut
 
-        var_dump("success");
         $em = $this->getDoctrine()->getEntityManager();
         $donut = $this->getDoctrine()
             ->getRepository('M4MinecraftBundle:Donut')
@@ -217,9 +229,6 @@ class DefaultController extends Controller
             die('Подключение не удалось: ' . $e->getMessage());
         }
 
-
-
-
         //Обновляем значение в таблице mc_server
         $ems = $this->getDoctrine()->getEntityManager();
         $dql = "UPDATE M4MinecraftBundle:Mc_server s SET s.balls = s.balls +  :add_balls WHERE s.id IN (:id_server)";
@@ -229,7 +238,7 @@ class DefaultController extends Controller
                 'id_server' => $id_server,
             ));
         $query->getResult();
-        return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
+        //return $this->redirect($this->generateUrl('m4_minecraft_homepage'));
     }
 }
 
